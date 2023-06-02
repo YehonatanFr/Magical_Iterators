@@ -33,8 +33,13 @@ namespace ariel {
 
     // AscendingIterator
 
-    MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer& cont, std::vector<int>::const_iterator it)
-        : container(cont), iterator(it) {}
+    MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer& cont)
+        : container(cont), iterator(cont.elements.begin()) {}
+
+    MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& other)
+    : container(other.container), iterator(other.iterator) {}
+
+    MagicalContainer::AscendingIterator::~AscendingIterator() {}
 
     MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator++() {
         // TODO: Implement the increment operator
@@ -76,9 +81,17 @@ namespace ariel {
 
     // SideCrossIterator
 
-    MagicalContainer::SideCrossIterator::SideCrossIterator(const MagicalContainer& cont,
-        std::vector<int>::const_iterator fwdIt, std::vector<int>::const_reverse_iterator revIt, bool fwd)
-        : container(cont), forwardIterator(fwdIt), reverseIterator(revIt), forward(fwd) {}
+    MagicalContainer::SideCrossIterator::SideCrossIterator(const MagicalContainer& cont)
+        : container(cont), forwardIterator(cont.elements.begin()),
+        reverseIterator(cont.elements.rbegin()), forward(true) {}
+
+    MagicalContainer::SideCrossIterator::SideCrossIterator(const SideCrossIterator& other)
+    : container(other.container),
+      forwardIterator(other.forwardIterator),
+      reverseIterator(other.reverseIterator),
+      forward(other.forward) {}
+
+    MagicalContainer::SideCrossIterator::~SideCrossIterator() {}
 
     MagicalContainer::SideCrossIterator& MagicalContainer::SideCrossIterator::operator++() {
         // TODO: Implement the increment operator
@@ -120,11 +133,17 @@ namespace ariel {
 
     // PrimeIterator
 
-    MagicalContainer::PrimeIterator::PrimeIterator(const MagicalContainer& cont, std::vector<int>::const_iterator it)
-        : container(cont), iterator(it) {
-        while (iterator != container.elements.end() && !isPrime(*iterator))
+    MagicalContainer::PrimeIterator::PrimeIterator(const MagicalContainer& cont)
+        : container(cont), iterator(cont.elements.begin()) {
+        while (iterator != container.elements.end() && !isPrime(*iterator)) {
             ++iterator;
+        }
     }
+
+    MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& other)
+    : container(other.container), iterator(other.iterator) {}
+
+    MagicalContainer::PrimeIterator::~PrimeIterator() {}
 
     MagicalContainer::PrimeIterator& MagicalContainer::PrimeIterator::operator++() {
         // TODO: Implement the increment operator
@@ -164,3 +183,5 @@ namespace ariel {
         return *this;
     }
 } 
+
+

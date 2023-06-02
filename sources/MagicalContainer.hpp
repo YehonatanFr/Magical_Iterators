@@ -4,6 +4,8 @@
 #include <vector>
 #include <algorithm>
 
+
+
 // namespace ariel
 namespace ariel {
 
@@ -22,12 +24,17 @@ namespace ariel {
             std::vector<int>::const_iterator iterator;
 
         public:
-            AscendingIterator(const MagicalContainer& cont, std::vector<int>::const_iterator it);
+            AscendingIterator(const MagicalContainer& cont);
+            AscendingIterator(const AscendingIterator& other);
+            ~AscendingIterator();
+
             AscendingIterator& operator++();
+
             bool operator==(const AscendingIterator& other) const;
             bool operator!=(const AscendingIterator& other) const;
             bool operator>(const AscendingIterator& other) const;
             bool operator<(const AscendingIterator& other) const;
+
             int operator*() const;
 
             AscendingIterator &begin();
@@ -42,13 +49,17 @@ namespace ariel {
             bool forward;
 
         public:
-            SideCrossIterator(const MagicalContainer& cont, std::vector<int>::const_iterator fwdIt,
-                std::vector<int>::const_reverse_iterator revIt, bool fwd);
+            SideCrossIterator(const MagicalContainer& cont);
+            SideCrossIterator(const SideCrossIterator& other);
+            ~SideCrossIterator();
+
             SideCrossIterator& operator++();
+
             bool operator==(const SideCrossIterator& other) const;
             bool operator!=(const SideCrossIterator& other) const;
             bool operator>(const SideCrossIterator& other) const;
             bool operator<(const SideCrossIterator& other) const;
+
             int operator*() const;
 
             SideCrossIterator &begin();
@@ -61,12 +72,17 @@ namespace ariel {
             std::vector<int>::const_iterator iterator;
 
         public:
-            PrimeIterator(const MagicalContainer& cont, std::vector<int>::const_iterator it);
+            PrimeIterator(const MagicalContainer& cont);
+            PrimeIterator(const PrimeIterator& other);
+            ~PrimeIterator();
+
             PrimeIterator& operator++();
+            
             bool operator==(const PrimeIterator& other) const;
             bool operator!=(const PrimeIterator& other) const;
             bool operator>(const PrimeIterator& other) const;
             bool operator<(const PrimeIterator& other) const;
+            
             int operator*() const;
 
             PrimeIterator &begin();
