@@ -20,11 +20,11 @@ namespace ariel {
 
         class AscendingIterator {
         private:
-            const MagicalContainer& container;
+            MagicalContainer& container;
             std::vector<int>::const_iterator iterator;
 
         public:
-            AscendingIterator(const MagicalContainer& cont);
+            AscendingIterator(MagicalContainer& cont);
             AscendingIterator(const AscendingIterator& other);
             ~AscendingIterator();
 
@@ -43,13 +43,13 @@ namespace ariel {
 
         class SideCrossIterator {
         private:
-            const MagicalContainer& container;
+            MagicalContainer& container;
             std::vector<int>::const_iterator forwardIterator;
             std::vector<int>::const_reverse_iterator reverseIterator;
             bool forward;
 
         public:
-            SideCrossIterator(const MagicalContainer& cont);
+            SideCrossIterator(MagicalContainer& cont);
             SideCrossIterator(const SideCrossIterator& other);
             ~SideCrossIterator();
 
@@ -68,11 +68,11 @@ namespace ariel {
 
         class PrimeIterator {
         private:
-            const MagicalContainer& container;
+            MagicalContainer& container;
             std::vector<int>::const_iterator iterator;
 
         public:
-            PrimeIterator(const MagicalContainer& cont);
+            PrimeIterator(MagicalContainer& cont);
             PrimeIterator(const PrimeIterator& other);
             ~PrimeIterator();
 

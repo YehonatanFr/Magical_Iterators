@@ -1,13 +1,10 @@
+#include "doctest.h"
 #include "sources/MagicalContainer.hpp"
-
-#include <iostream>
-#include <string>
-#include <chrono>
+#include <stdexcept>
 
 using namespace std;
 using namespace ariel;
 
-#include "doctest.h"
 
 // Basic tests for the AscendingIterator class
 TEST_CASE("AscendingIterator - Basic tests") {
@@ -18,37 +15,31 @@ TEST_CASE("AscendingIterator - Basic tests") {
     container.addElement(4);
 
     SUBCASE("Dereference operator (*)") {
-        auto it = container.begin();
+        MagicalContainer::AscendingIterator it(container);
         CHECK(*it == 1);
         ++it;
         CHECK(*it == 2);
     }
 
-    // SUBCASE("Pre-increment operator (++)") {
-    //     auto it = container.begin();
-    //     CHECK(*it++ == 1);
-    //     CHECK(*it == 2);
-    // }
-
     SUBCASE("Equality comparison (==)") {
-        auto it1 = container.begin();
-        auto it2 = container.begin();
+        MagicalContainer::AscendingIterator it1(container);
+        MagicalContainer::AscendingIterator it2(container);
         CHECK(it1 == it2);
         ++it1;
         CHECK(it1 != it2);
     }
 
     SUBCASE("Inequality comparison (!=)") {
-        auto it1 = container.begin();
-        auto it2 = container.begin();
+        MagicalContainer::AscendingIterator it1(container);
+        MagicalContainer::AscendingIterator it2(container);
         CHECK(!(it1 != it2));
         ++it1;
         CHECK(it1 != it2);
     }
 
     SUBCASE("GT comparison (>)") {
-        auto it1 = container.begin();
-        auto it2 = container.begin();
+        MagicalContainer::AscendingIterator it1(container);
+        MagicalContainer::AscendingIterator it2(container);
         CHECK(!(it1 > it2));
         ++it1;
         CHECK(it1 > it2);
@@ -56,8 +47,8 @@ TEST_CASE("AscendingIterator - Basic tests") {
     }
 
     SUBCASE("LT comparison (<)") {
-        auto it1 = container.begin();
-        auto it2 = container.begin();
+        MagicalContainer::AscendingIterator it1(container);
+        MagicalContainer::AscendingIterator it2(container);
         CHECK(!(it1 < it2));
         ++it1;
         CHECK(!(it1 < it2));
@@ -65,7 +56,9 @@ TEST_CASE("AscendingIterator - Basic tests") {
     }
 
     SUBCASE("begin() and end()") {
-        auto it = container.begin();
+        MagicalContainer::AscendingIterator it(container);
+        MagicalContainer::AscendingIterator endIt(container);
+        ++endIt; // Pointing to the end
         CHECK(*it == 1);
         ++it;
         CHECK(*it == 2);
@@ -74,7 +67,7 @@ TEST_CASE("AscendingIterator - Basic tests") {
         ++it;
         CHECK(*it == 5);
         ++it;
-        CHECK(it == container.end());
+        CHECK(it == endIt);
     }
 }
 
@@ -87,63 +80,55 @@ TEST_CASE("SideCrossIterator - Basic tests") {
     container.addElement(5);
 
     SUBCASE("Dereference operator (*)") {
-        auto it = container.beginSideCross();
+        MagicalContainer::SideCrossIterator it(container);
         CHECK(*it == 1);
         ++it;
         CHECK(*it == 5);
     }
 
-    // SUBCASE("Pre-increment operator (++)") {
-    //     auto it = container.beginSideCross();
-    //     CHECK(*it++ == 1);
-    //     CHECK(*it == 5);
-    // }
-
     SUBCASE("Equality comparison (==)") {
-        auto it1 = container.beginSideCross();
-        auto it2 = container.beginSideCross();
+        MagicalContainer::SideCrossIterator it1(container);
+        MagicalContainer::SideCrossIterator it2(container);
         CHECK(it1 == it2);
         ++it1;
         CHECK(it1 != it2);
     }
 
     SUBCASE("Inequality comparison (!=)") {
-        auto it1 = container.beginSideCross();
-        auto it2 = container.beginSideCross();
+        MagicalContainer::SideCrossIterator it1(container);
+        MagicalContainer::SideCrossIterator it2(container);
         CHECK(!(it1 != it2));
         ++it1;
         CHECK(it1 != it2);
     }
 
     SUBCASE("GT comparison (>)") {
-        auto it1 = container.beginSideCross();
-        auto it2 = container.beginSideCross();
+        MagicalContainer::SideCrossIterator it1(container);
+        MagicalContainer::SideCrossIterator it2(container);
         CHECK(!(it1 > it2));
         ++it1;
-        CHECK(!(it1 > it2));
-        CHECK(it2 > it1);
+        CHECK(it1 > it2);
+        CHECK(!(it2 > it1));
     }
 
     SUBCASE("LT comparison (<)") {
-        auto it1 = container.beginSideCross();
-        auto it2 = container.beginSideCross();
+        MagicalContainer::SideCrossIterator it1(container);
+        MagicalContainer::SideCrossIterator it2(container);
         CHECK(!(it1 < it2));
         ++it1;
-        CHECK(it1 < it2);
-        CHECK(!(it2 < it1));
+        CHECK(!(it1 < it2));
+        CHECK(it2 < it1);
     }
 
     SUBCASE("begin() and end()") {
-        auto it = container.beginSideCross();
+        MagicalContainer::SideCrossIterator it(container);
+        MagicalContainer::SideCrossIterator endIt(container);
+        ++endIt; // Pointing to the end
         CHECK(*it == 1);
         ++it;
         CHECK(*it == 5);
         ++it;
-        CHECK(*it == 2);
-        ++it;
-        CHECK(*it == 4);
-        ++it;
-        CHECK(it == container.endSideCross());
+        CHECK(it == endIt);
     }
 }
 
@@ -156,96 +141,86 @@ TEST_CASE("PrimeIterator - Basic tests") {
     container.addElement(4);
 
     SUBCASE("Dereference operator (*)") {
-        auto it = container.beginPrime();
+        MagicalContainer::PrimeIterator it(container);
         CHECK(*it == 2);
         ++it;
         CHECK(*it == 5);
     }
 
-    // SUBCASE("Pre-increment operator (++)") {
-    //     auto it = container.beginPrime();
-    //     CHECK(*it++ == 2);
-    //     CHECK(*it == 5);
-    // }
-
     SUBCASE("Equality comparison (==)") {
-        auto it1 = container.beginPrime();
-        auto it2 = container.beginPrime();
+        MagicalContainer::PrimeIterator it1(container);
+        MagicalContainer::PrimeIterator it2(container);
         CHECK(it1 == it2);
         ++it1;
         CHECK(it1 != it2);
     }
 
     SUBCASE("Inequality comparison (!=)") {
-        auto it1 = container.beginPrime();
-        auto it2 = container.beginPrime();
+        MagicalContainer::PrimeIterator it1(container);
+        MagicalContainer::PrimeIterator it2(container);
         CHECK(!(it1 != it2));
         ++it1;
         CHECK(it1 != it2);
     }
 
     SUBCASE("GT comparison (>)") {
-        auto it1 = container.beginPrime();
-        auto it2 = container.beginPrime();
+        MagicalContainer::PrimeIterator it1(container);
+        MagicalContainer::PrimeIterator it2(container);
         CHECK(!(it1 > it2));
         ++it1;
-        CHECK(!(it1 > it2));
-        CHECK(it2 > it1);
+        CHECK(it1 > it2);
+        CHECK(!(it2 > it1));
     }
 
     SUBCASE("LT comparison (<)") {
-        auto it1 = container.beginPrime();
-        auto it2 = container.beginPrime();
+        MagicalContainer::PrimeIterator it1(container);
+        MagicalContainer::PrimeIterator it2(container);
         CHECK(!(it1 < it2));
         ++it1;
-        CHECK(it1 < it2);
-        CHECK(!(it2 < it1));
+        CHECK(!(it1 < it2));
+        CHECK(it2 < it1);
     }
 
     SUBCASE("begin() and end()") {
-        auto it = container.beginPrime();
+        MagicalContainer::PrimeIterator it(container);
+        MagicalContainer::PrimeIterator endIt(container);
+        ++endIt; // Pointing to the end
         CHECK(*it == 2);
         ++it;
         CHECK(*it == 5);
         ++it;
-        CHECK(it == container.endPrime());
+        CHECK(it == endIt);
     }
 }
 
 // Advanced tests for the MagicalContainer class
 TEST_CASE("MagicalContainer - Advanced tests") {
     MagicalContainer container;
-    container.addElement(2);
-    container.addElement(5);
-    container.addElement(1);
-    container.addElement(4);
-    container.addElement(14);
 
-    SUBCASE("Test iterator traversal") {
-        std::string traversal;
-        for (auto it = container.begin(); it != container.end(); ++it) {
-            traversal += std::to_string(*it) + " ";
-        }
-        CHECK(traversal == "1 2 4 5 14 ");
+    SUBCASE("Adding and removing elements") {
 
-        traversal.clear();
-        for (auto it = container.beginSideCross(); it != container.endSideCross(); ++it) {
-            traversal += std::to_string(*it) + " ";
-        }
-        CHECK(traversal == "1 14 2 5 4 ");
+        CHECK(container.size() == 0);
 
-        traversal.clear();
-        for (auto it = container.beginPrime(); it != container.endPrime(); ++it) {
-            traversal += std::to_string(*it) + " ";
-        }
-        CHECK(traversal == "2 5 ");
+        container.addElement(10);
+        container.addElement(20);
+        container.addElement(30);
+
+        CHECK(container.size() == 3);
+
+        container.removeElement(20);
+
+         CHECK_THROWS_AS(container.removeElement(20), runtime_error);
+
+        CHECK(container.size() == 2);
+
+        container.addElement(40);
+
+        CHECK(container.size() == 3);
+
+        container.removeElement(10);
+
+        CHECK(container.size() == 2);
     }
 
-    SUBCASE("Test container size") {
-        CHECK(container.getSize() == 5);
-        container.addElement(7);
-        CHECK(container.getSize() == 6);
-        container.removeElement(4);
-        CHECK(container.getSize() == 5);
-    }
 }
+

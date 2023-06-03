@@ -1,18 +1,19 @@
 #include "MagicalContainer.hpp"
 
+using namespace std;
+
 bool isPrime(int num) {
     if (num <= 1)
         return false;
-    if (num <= 3)
-        return true;
-    if (num % 2 == 0 || num % 3 == 0)
-        return false;
-    for (int i = 5; i * i <= num; i += 6) {
-        if (num % i == 0 || num % (i + 2) == 0)
+    
+    for (int i = 2; i * i <= num; ++i) {
+        if (num % i == 0)
             return false;
     }
+    
     return true;
 }
+
 
 
 namespace ariel {
@@ -24,7 +25,7 @@ namespace ariel {
     }
 
     void MagicalContainer::removeElement(int element) {
-        elements.erase(std::remove(elements.begin(), elements.end(), element), elements.end());
+        elements.erase(remove(elements.begin(), elements.end(), element), elements.end());
     }
 
     int MagicalContainer::size() const {
@@ -33,7 +34,7 @@ namespace ariel {
 
     // AscendingIterator
 
-    MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer& cont)
+    MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer& cont)
         : container(cont), iterator(cont.elements.begin()) {}
 
     MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& other)
@@ -81,7 +82,7 @@ namespace ariel {
 
     // SideCrossIterator
 
-    MagicalContainer::SideCrossIterator::SideCrossIterator(const MagicalContainer& cont)
+    MagicalContainer::SideCrossIterator::SideCrossIterator(MagicalContainer& cont)
         : container(cont), forwardIterator(cont.elements.begin()),
         reverseIterator(cont.elements.rbegin()), forward(true) {}
 
@@ -133,7 +134,7 @@ namespace ariel {
 
     // PrimeIterator
 
-    MagicalContainer::PrimeIterator::PrimeIterator(const MagicalContainer& cont)
+    MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& cont)
         : container(cont), iterator(cont.elements.begin()) {
         while (iterator != container.elements.end() && !isPrime(*iterator)) {
             ++iterator;
